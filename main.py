@@ -1,21 +1,25 @@
 #!/usr/bin/env python3
 # -*-coding:utf-8 -*-
-
-from health import HealthSubmitter
+from health.form import SubmitForm
+from health.submitter import HealthSubmitter
 
 if __name__ == "__main__":
 
-    status = HealthSubmitter(
-        wx_nickname="",
-        sn="",
-        password="",
-        province="",
-        city="",
-        county="",
-        street="",
-        is_in_school=True,
-        is_leave_wuhan=False
-    ).submit()
+    forms: list = [
+        SubmitForm(
+            wx_nickname="",
+            sn="",
+            password="",
+            province="",
+            city="",
+            county="",
+            street="",
+            is_in_school=True,
+            is_leave_wuhan=False,
+        ),
+    ]
 
-    if not status.ok:
-        print("填报失败")
+    for form in forms:
+        status = HealthSubmitter(form).submit()
+
+        print(status.recap())
